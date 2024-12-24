@@ -320,8 +320,12 @@ yay -S virtualbox virtualbox-guest-iso
 sudo gpasswd -a $USER vboxusers
 sudo modprobe vboxdrv
 sudo modprobe vboxdrv
+sudo modprobe -r kvm_intel  
+sudo modprobe -r kvm        
 sudo systemctl enable vboxweb.service
 sudo systemctl start vboxweb.service
+echo "blacklist kvm" | sudo tee /etc/modprobe.d/blacklist-kvm.conf
+echo "blacklist kvm_intel" | sudo tee -a /etc/modprobe.d/blacklist-kvm.conf  
 lsmod | grep -i vbox
 
 
