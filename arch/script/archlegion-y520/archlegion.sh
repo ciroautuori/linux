@@ -38,7 +38,7 @@ mkdir /mnt/boot/efi
 mount /dev/nvme0n1p1 /mnt/boot/efi
 
 # Installa il sistema base
-pacstrap /mnt base base-devel linux linux-firmware intel-ucode git networkmanager
+pacstrap /mnt base base-devel linux linux-firmware intel-ucode iwlwifi-ucode nano git networkmanager
 
 # Genera fstab
 genfstab -U /mnt >> /mnt/etc/fstab
@@ -79,6 +79,7 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 # Abilita NetworkManager
 systemctl enable NetworkManager
+systemctl start NetworkManager
 
 # Crea un nuovo utente con privilegi sudo
 useradd -m -G wheel,users -s /bin/bash utente  # Crea un utente chiamato "utente"
@@ -128,6 +129,9 @@ rm -rf yay
 yay -S google-chrome
 
 # --- FINE TERZO RIAVVIO ---
+# Pacchetti base per il supporto wireless
+sudo pacman -S wireless_tools wpa_supplicant netctl dialog iw network-manager-applet nm-connection-editor bluez bluez-utils blueman --noconfirm
+
 # Installa e configura firewall
 sudo pacman -S ufw
 sudo systemctl enable ufw
