@@ -315,6 +315,15 @@ Color
 Parallel Download
 ILoveCandy
 
+# VirtualBox
+yay -S virtualbox virtualbox-guest-iso
+sudo gpasswd -a $USER vboxusers
+sudo modprobe vboxdrv
+sudo modprobe vboxdrv
+sudo systemctl enable vboxweb.service
+sudo systemctl start vboxweb.service
+lsmod | grep -i vbox
+
 
 
 
