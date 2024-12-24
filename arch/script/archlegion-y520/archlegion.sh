@@ -297,6 +297,24 @@ sudo pacman -S wine winetricks wine-mono wine-gecko
 wine --version
 winecfg
 
+# Winetricks
+git clone https://github.com/HansKristian-Work/vkd3d-proton.git
+cd vkd3d-proton
+tar -xvf vkd3d-proton-*.tar.zst
+cp -r * ~/.wine
+cd ..
+sudo rm -rf vkd3d-proton
+cd ~/.wine
+./setup_vkd3d_proton.sh install --symlink
+winetricks dxvk
+winetricks vkd3d
+
+# Terminale
+sudo nano /etc/pacman.conf
+Color
+Parallel Download
+ILoveCandy
+
 
 
 
