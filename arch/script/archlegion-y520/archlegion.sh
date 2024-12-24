@@ -271,12 +271,22 @@ sudo systemctl start timeshift-autobackup.timer
 # Installazione Flatpak
 sudo pacman -S flatpak
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-flatpak install flathub com.visualstudio.code com.discordapp.Discord org.telegram.desktop com.spotify.Client com.valvesoftware.Steam org.libreoffice.LibreOffice com.anydesk.Anydesk com.rtosta.zapzap
+
+# Aggiorna il sistema
+echo "Aggiornamento del sistema..."
+sudo pacman -Syu --noconfirm
+
+# Installazione Browser
+yay -S --noconfirm google-chrome
 sudo reboot
 
 # ----------------------
 # INSTALLAZIONE COMPLETA
 # ----------------------
+# Installazione delle applicazioni
+sudo pacman -S --noconfirm steam libreoffice-fresh discord
+yay -S --noconfirm anydesk whatsdesk-bin telegram-desktop-bin spotify visual-studio-code-bin
+
 # Terzo backup
 sudo timeshift --create --comments "Installazione completa"
 
