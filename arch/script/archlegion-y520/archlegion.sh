@@ -267,6 +267,7 @@ sudo systemctl start timeshift-autobackup.timer
 # Installazione Flatpak
 sudo pacman -S flatpak
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+flatpak install flathub com.visualstudio.code com.discordapp.Discord org.telegram.desktop com.spotify.Client com.valvesoftware.Steam org.libreoffice.LibreOffice com.anydesk.Anydesk com.rtosta.zapzap
 sudo reboot
 
 # ----------------------
