@@ -390,12 +390,10 @@ plugins=(
 
 # Plugin syntax highlighting + font Nerd
 sudo pacman -S zsh-syntax-highlighting ttf-meslo-nerd-font-powerlevel10k
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 
 # Plugin autosuggestions
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-
-# Configurazione guidata Powerlevel10k
-p10k configure
 
 # Ricarica configurazione
 source ~/.zshrc
