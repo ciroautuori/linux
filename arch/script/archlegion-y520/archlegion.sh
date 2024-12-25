@@ -37,7 +37,7 @@ mkdir /mnt/boot/efi
 mount /dev/nvme0n1p1 /mnt/boot/efi
 
 # Installa il sistema base
-pacstrap /mnt base base-devel linux linux-firmware intel-ucode iwlwifi-ucode nano git networkmanager
+pacstrap /mnt base base-devel linux linux-firmware intel-ucode nano git networkmanager
 
 # Genera fstab
 genfstab -U /mnt >> /mnt/etc/fstab
@@ -137,7 +137,7 @@ yay -S google-chrome
 
 # --- FINE TERZO RIAVVIO ---
 # Pacchetti base per il supporto wireless
-sudo pacman -S wireless_tools wpa_supplicant netctl dialog iw network-manager-applet nm-connection-editor bluez bluez-utils blueman --noconfirm
+sudo pacman -S iwlwifi-ucode wireless_tools wpa_supplicant netctl dialog iw network-manager-applet nm-connection-editor bluez bluez-utils blueman --noconfirm
 
 # Installa e configura firewall
 sudo pacman -S ufw
