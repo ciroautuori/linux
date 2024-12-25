@@ -15,10 +15,6 @@ loadkeys it
 timedatectl set-ntp true
 timedatectl set-timezone Europe/Rome
 
-# Ottimizza mirror
-pacman -Sy reflector
-reflector --verbose --country Italy,Germany,Spain --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
-
 # Mostra dischi disponibili
 lsblk
 fdisk -l
@@ -30,10 +26,13 @@ cfdisk /dev/nvme0n1
 mkfs.fat -F32 /dev/nvme0n1p1 	# /dev/nvme0n1p1: 512M   EFI   
 mkswap /dev/nvme0n1p2	     	# /dev/nvme0n1p2: 4096M  swap   
 swapon /dev/nvme0n1p2        
-mkfs.ext4 /dev/nvme0n1p3     	# /dev/nvme0n1p3: 50G    root  
+mkfs.ext4 /dev/nvme0n1p3     	# /dev/nvme0n1p3: 50G    root 
+mkfs.ext4 /dev/nvme0n1p4     	# /dev/nvme0n1p3: ALL    home
 
 # Monta partizioni
 mount /dev/nvme0n1p3 /mnt
+mkdir /mnt/home
+mount /dev/nvme0n1p4 /mnt/home
 mkdir /mnt/boot/efi
 mount /dev/nvme0n1p1 /mnt/boot/efi
 
@@ -97,6 +96,11 @@ reboot
 
 # --- FINE PRIMO RIAVVIO ---
 # Dopo il riavvio, esegui i seguenti comandi come utente (tuonome) con sudo:
+# Ottimizza mirror
+pacman -Sy reflector
+reflector --verbose --country Italy,Germany,Spain --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
+
+# Installa timeshift per i vari backup
 sudo pacman -Syu
 sudo pacman -S timeshift
 
@@ -137,6 +141,8 @@ sudo pacman -S ufw
 sudo systemctl enable ufw
 sudo ufw default deny incoming
 sudo ufw default allow outgoing
+sudo ufw allow out 22/tcp
+sudo ufw allow out 443/tcp
 sudo ufw enable
 
 # Installa e configura fail2ban
@@ -145,9 +151,9 @@ sudo systemctl enable fail2ban
 sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
 sudo nano /etc/fail2ban/jail.local
 # Modifica:
-# bantime = 1h
-# findtime = 30m
-# maxretry = 3
+bantime = 1h
+findtime = 30m
+maxretry = 3
 
 # Installa utility gestione energia
 sudo pacman -S tlp thermald 
@@ -195,15 +201,16 @@ sudo nvidia-smi              # Test NVIDIA
 sudo sensors                 # Test sensori
 sudo powertop --auto-tune    # Ottimizza consumo energia
 
+# Se preferisci riavvia dinuovo
 # Configura optimus-manager
 yay -S optimus-manager optimus-manager-qt
 sudo systemctl enable optimus-manager.service
 sudo systemctl start optimus-manager.service
 sudo nano /etc/optimus-manager/optimus-manager.conf
 # Modifica:
-# [optimus]
-# startup_mode=hybrid
-# switching=none
+[optimus]
+startup_mode=hybrid
+switching=none
 
 # --- Ottimizzazioni Avanzate ---
 # Configura intel-undervolt
@@ -213,58 +220,58 @@ sudo systemctl enable intel-undervolt
 # Configurazione refresh rate ottimale
 sudo nano /etc/X11/xorg.conf.d/10-monitor.conf
 # Aggiungi:
-# Section "Monitor"
-#     Identifier "HDMI-0"
-#     Option "Primary" "true"
-#     Option "PreferredMode" "1920x1080_144.00"
-# EndSection
+Section "Monitor"
+    Identifier "HDMI-0"
+    Option "Primary" "true"
+    Option "PreferredMode" "1920x1080_144.00"
+EndSection
 
 # Configurazione profilo thermald per Y520
 sudo nano /etc/thermald/thermal-conf.xml
 # Aggiungi configurazione specifica per Y520:
-# <ThermalConfiguration>
-#     <Platform>
-#         <Name>Legion Y520</Name>
-#         <ProductName>Lenovo Legion Y520</ProductName>
-#         <Preference>QUIET</Preference>
-#         <ThermalZones>
-#             <ThermalZone>
-#                 <Type>cpu</Type>
-#                 <TripPoints>
-#                     <TripPoint>
-#                         <SensorType>thermal</SensorType>
-#                         <Temperature>75000</Temperature>
-#                         <type>passive</type>
-#                         <ControlType>SEQUENTIAL</ControlType>
-#                     </TripPoint>
-#                 </TripPoints>
-#             </ThermalZone>
-#         </ThermalZones>
-#     </Platform>
-# </ThermalConfiguration>
+<ThermalConfiguration>
+    <Platform>
+        <Name>Legion Y520</Name>
+        <ProductName>Lenovo Legion Y520</ProductName>
+        <Preference>QUIET</Preference>
+        <ThermalZones>
+            <ThermalZone>
+                <Type>cpu</Type>
+                <TripPoints>
+                    <TripPoint>
+                        <SensorType>thermal</SensorType>
+                        <Temperature>75000</Temperature>
+                        <type>passive</type>
+                        <ControlType>SEQUENTIAL</ControlType>
+                    </TripPoint>
+                </TripPoints>
+            </ThermalZone>
+        </ThermalZones>
+    </Platform>
+</ThermalConfiguration>
 
 # Setup backup automatico
 sudo nano /etc/systemd/system/timeshift-autobackup.service
-# [Unit]
-# Description=Timeshift Auto Backup
+[Unit]
+Description=Timeshift Auto Backup
 # 
-# [Service]
-# Type=oneshot
-# ExecStart=/usr/bin/timeshift --create --comments "Auto Backup" --tags D
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/timeshift --create --comments "Auto Backup" --tags D
 #
-# [Install]
-# WantedBy=multi-user.target
+[Install]
+WantedBy=multi-user.target
 
 sudo nano /etc/systemd/system/timeshift-autobackup.timer
-# [Unit]
-# Description=Timeshift Auto Backup Timer
+[Unit]
+Description=Timeshift Auto Backup Timer
 #
-# [Timer]
-# OnCalendar=daily
-# Persistent=true
+[Timer]
+OnCalendar=daily
+Persistent=true
 #
-# [Install]
-# WantedBy=timers.target
+[Install]
+WantedBy=timers.target
 sudo systemctl enable timeshift-autobackup.timer
 sudo systemctl start timeshift-autobackup.timer
 
@@ -342,11 +349,42 @@ echo "blacklist kvm" | sudo tee /etc/modprobe.d/blacklist-kvm.conf
 echo "blacklist kvm_intel" | sudo tee -a /etc/modprobe.d/blacklist-kvm.conf  
 lsmod | grep -i vbox
 
+# Zsh
+sudo pacman -S zsh --noconfirm
+chsh -s $(which zsh)
+source ~/.zshrc  
 
+# OhMyZsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
+# Tema zsh "Powerlevel10k"
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 
+# Modifica tema
+nano ~/.zshrc
 
+# Sostituisci ZSH_THEME con:
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
+# Configura plugin
+plugins=(
+    git 
+    docker 
+    docker-compose 
+    sudo 
+    zsh-autosuggestions 
+    zsh-syntax-highlighting
+)
 
+# Plugin syntax highlighting + font Nerd
+sudo pacman -S zsh-syntax-highlighting ttf-meslo-nerd-font-powerlevel10k
 
+# Plugin autosuggestions
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 
+# Configurazione guidata Powerlevel10k
+p10k configure
+
+# Ricarica configurazione
+source ~/.zshrc
+exec zsh
