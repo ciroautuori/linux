@@ -27,7 +27,7 @@ mkfs.fat -F32 /dev/nvme0n1p1 	# /dev/nvme0n1p1: 512M   EFI
 mkswap /dev/nvme0n1p2	     	# /dev/nvme0n1p2: 4096M  swap   
 swapon /dev/nvme0n1p2        
 mkfs.ext4 /dev/nvme0n1p3     	# /dev/nvme0n1p3: 50G    root 
-mkfs.ext4 /dev/nvme0n1p4     	# /dev/nvme0n1p3: ALL    home
+mkfs.ext4 /dev/nvme0n1p4     	# /dev/nvme0n1p4: ALL    home
 
 # Monta partizioni
 mount /dev/nvme0n1p3 /mnt
@@ -43,7 +43,7 @@ pacstrap /mnt base base-devel linux linux-firmware intel-ucode nano git networkm
 genfstab -U /mnt >> /mnt/etc/fstab
 
 # Entra nel sistema installato
-arch-chroot /mnt
+arch-chroot /mnt /bin/bash
 
 # Imposta timezone
 ln -sf /usr/share/zoneinfo/Europe/Rome /etc/localtime
@@ -66,7 +66,7 @@ nano /etc/hosts
 # Aggiungi:
 # 127.0.0.1   localhost
 # ::1         localhost
-# 127.0.1.1   archlegion.localdomain archlegion
+# 127.0.1.1   archlegion
 
 # Imposta password root
 passwd
@@ -98,7 +98,8 @@ reboot
 # Dopo il riavvio, esegui i seguenti comandi come utente (tuonome) con sudo:
 # Ottimizza mirror
 pacman -Sy reflector
-reflector --verbose --country Italy,Germany,Spain \
+reflector --verbose \
+                 --country Italy,Germany,Spain \
                  --fastest 10 \
                  --threads $(nproc) \
                  --save /etc/pacman.d/mirrorlist
@@ -137,7 +138,7 @@ yay -S google-chrome
 
 # --- FINE TERZO RIAVVIO ---
 # Pacchetti base per il supporto wireless
-sudo pacman -S iwlwifi-ucode wireless_tools wpa_supplicant netctl dialog iw network-manager-applet nm-connection-editor bluez bluez-utils blueman --noconfirm
+sudo pacman -S wireless_tools wpa_supplicant netctl dialog iw network-manager-applet nm-connection-editor bluez bluez-utils blueman --noconfirm
 
 # Installa e configura firewall
 sudo pacman -S ufw
@@ -154,6 +155,7 @@ sudo systemctl enable fail2ban
 sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
 sudo nano /etc/fail2ban/jail.local
 # Modifica:
+[DEFAULT]
 bantime = 1h
 findtime = 30m
 maxretry = 3
@@ -167,29 +169,29 @@ sudo systemctl enable thermald
 sudo pacman -S ntfs-3g gvfs gvfs-mtp gvfs-afc gvfs-smb file-roller --noconfirm
 
 # Input
-sudo pacman -S xf86-input-libinput xf86-input-synaptics
+sudo pacman -S xf86-input-libinput xf86-input-synaptics --noconfirm
 
 # Audio
-sudo pacman -S pulseaudio pulseaudio-bluetooth pavucontrol alsa-utils alsa-plugins 
+sudo pacman -S pulseaudio pulseaudio-bluetooth pavucontrol alsa-utils alsa-plugins --noconfirm
 
 # Monitoraggio Sistema 
-sudo pacman -S psensor lm_sensors hddtemp htop neofetch 
+sudo pacman -S psensor lm_sensors hddtemp htop neofetch --noconfirm
 
 # Utility Sistema 
-sudo pacman -S gparted wget curl unzip p7zip ntfs-3g usbutils lsof tree vlc ffmpeg
+sudo pacman -S gparted wget curl unzip p7zip ntfs-3g usbutils lsof tree vlc ffmpeg tree --noconfirm
 
 # Gaming e Performance 
-sudo pacman -S gamemode vulkan-intel vulkan-icd-loader intel-undervolt powertop cpupower
+sudo pacman -S gamemode vulkan-intel vulkan-icd-loader intel-undervolt powertop cpupower --noconfirm
 
 # Installa software di programmazione 
 sudo pacman -S python python-pip nodejs npm docker docker-compose lua --noconfirm 
 sudo systemctl enable docker            # enable docker daemon on system start
-sudo usermod -a -G docker utent         # to be able to run docker as non-root
+sudo usermod -a -G docker utente        # to be able to run docker as non-root
 newgrp docker 
 
 # Font essenziali
-sudo pacman -S ttf-dejavu ttf-freefont ttf-liberation ttf-droid terminus-font
-sudo pacman -S noto-fonts noto-fonts-emoji ttf-ubuntu-font-family ttf-roboto ttf-roboto-mono
+sudo pacman -S ttf-dejavu ttf-freefont ttf-liberation ttf-droid terminus-font --noconfirm
+sudo pacman -S noto-fonts noto-fonts-emoji ttf-ubuntu-font-family ttf-roboto ttf-roboto-mono --noconfirm
 
 # Installazione tastiera italiana 
 sudo localectl set-x11-keymap it  
