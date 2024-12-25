@@ -98,8 +98,11 @@ reboot
 # Dopo il riavvio, esegui i seguenti comandi come utente (tuonome) con sudo:
 # Ottimizza mirror
 pacman -Sy reflector
-reflector --verbose --country Italy,Germany,Spain --age 12 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
-
+reflector --verbose --country Italy,Germany,Spain \
+                 --fastest 10 \
+                 --threads $(nproc) \
+                 --save /etc/pacman.d/mirrorlist
+                 
 # Installa timeshift per i vari backup
 sudo pacman -Syu
 sudo pacman -S timeshift
