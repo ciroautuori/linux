@@ -167,19 +167,26 @@ sudo pacman -S ntfs-3g gvfs gvfs-mtp gvfs-afc gvfs-smb file-roller --noconfirm
 sudo pacman -S xf86-input-libinput xf86-input-synaptics
 
 # Audio
-sudo pacman -S pulseaudio pulseaudio-bluetooth pavucontrol alsa-utils
+sudo pacman -S pulseaudio pulseaudio-bluetooth pavucontrol alsa-utils alsa-plugins 
 
 # Monitoraggio Sistema 
 sudo pacman -S psensor lm_sensors hddtemp htop neofetch 
 
 # Utility Sistema 
-sudo pacman -S gparted wget curl unzip p7zip ntfs-3g usbutils lsof ttf-liberation vlc ffmpeg
+sudo pacman -S gparted wget curl unzip p7zip ntfs-3g usbutils lsof tree vlc ffmpeg
 
 # Gaming e Performance 
 sudo pacman -S gamemode vulkan-intel vulkan-icd-loader intel-undervolt powertop cpupower
 
 # Installa software di programmazione 
-sudo pacman -S python python-pip nodejs npm docker docker-compose --noconfirm 
+sudo pacman -S python python-pip nodejs npm docker docker-compose lua --noconfirm 
+sudo systemctl enable docker            # enable docker daemon on system start
+sudo usermod -a -G docker utent         # to be able to run docker as non-root
+newgrp docker 
+
+# Font essenziali
+sudo pacman -S ttf-dejavu ttf-freefont ttf-liberation ttf-droid terminus-font
+sudo pacman -S noto-fonts noto-fonts-emoji ttf-ubuntu-font-family ttf-roboto ttf-roboto-mono
 
 # Installazione tastiera italiana 
 sudo localectl set-x11-keymap it  
@@ -291,8 +298,20 @@ sudo reboot
 # INSTALLAZIONE COMPLETA
 # ----------------------
 # Installazione delle applicazioni
-sudo pacman -S --noconfirm steam libreoffice-fresh discord
-yay -S --noconfirm anydesk whatsdesk-bin telegram-desktop-bin spotify visual-studio-code-bin
+sudo pacman -S --noconfirm steam libreoffice-fresh discord xournalpp wireshark-qt
+yay -S --noconfirm anydesk whatsdesk-bin telegram-desktop-bin spotify visual-studio-code-bin virtualbox virtualbox-guest-iso
+
+# VirtualBox
+sudo gpasswd -a $USER vboxusers
+sudo modprobe vboxdrv
+sudo modprobe vboxdrv
+sudo modprobe -r kvm_intel  
+sudo modprobe -r kvm        
+sudo systemctl enable vboxweb.service
+sudo systemctl start vboxweb.service
+echo "blacklist kvm" | sudo tee /etc/modprobe.d/blacklist-kvm.conf
+echo "blacklist kvm_intel" | sudo tee -a /etc/modprobe.d/blacklist-kvm.conf  
+lsmod | grep -i vbox
 
 # Terzo backup
 sudo timeshift --create --comments "Installazione completa"
@@ -312,11 +331,12 @@ Include = /etc/pacman.d/mirrorlist
 sudo pacman -Syyu
 
 #Installare Wine
-sudo pacman -S wine winetricks wine-mono wine-gecko
+sudo pacman -S wine winetricks wine-mono wine-gecko zenity
 
 #Configurazione
 wine --version
 winecfg
+winetricks settings fontsmooth=rgb
 
 # Winetricks
 git clone https://github.com/HansKristian-Work/vkd3d-proton.git
@@ -335,19 +355,6 @@ sudo nano /etc/pacman.conf
 Color
 Parallel Download
 ILoveCandy
-
-# VirtualBox
-yay -S virtualbox virtualbox-guest-iso
-sudo gpasswd -a $USER vboxusers
-sudo modprobe vboxdrv
-sudo modprobe vboxdrv
-sudo modprobe -r kvm_intel  
-sudo modprobe -r kvm        
-sudo systemctl enable vboxweb.service
-sudo systemctl start vboxweb.service
-echo "blacklist kvm" | sudo tee /etc/modprobe.d/blacklist-kvm.conf
-echo "blacklist kvm_intel" | sudo tee -a /etc/modprobe.d/blacklist-kvm.conf  
-lsmod | grep -i vbox
 
 # Zsh
 sudo pacman -S zsh --noconfirm
