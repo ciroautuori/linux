@@ -133,7 +133,6 @@ sudo timeshift --create --comments "Installazione desktop"
 # Zsh
 sudo pacman -S zsh --noconfirm
 chsh -s $(which zsh)
-source ~/.zshrc  
 # OhMyZsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 # Tema zsh "Powerlevel10k"
@@ -145,13 +144,13 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Configura plugin
 plugins=(git docker docker-compose sudo zsh-autosuggestions zsh-syntax-highlighting)
 # Plugin syntax highlighting + font Nerd
-sudo pacman -S zsh-syntax-highlighting ttf-meslo-nerd-font-powerlevel10k
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 # Plugin autosuggestions
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 # Ricarica configurazione
 source ~/.zshrc
 exec zsh
+sudo reboot
 
 # Pacchetti base per il supporto wireless
 sudo pacman -S wireless_tools wpa_supplicant netctl dialog iw network-manager-applet nm-connection-editor bluez bluez-utils blueman --noconfirm
