@@ -76,13 +76,12 @@ passwd utente  # Imposta la password per l'utente
 echo "utente ALL=(ALL) ALL" | EDITOR=nano visudo  # Decommentare: %wheel ALL=(ALL) ALL
 
 # Installa GRUB
-pacman -S grub efibootmgr dosfstools mtools  
-grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB #ose-prober no
+pacman -S grub efibootmgr dosfstools mtools --noconfirm
+grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB 
 grub-mkconfig -o /boot/grub/grub.cfg
 
 # Abilita NetworkManager
 systemctl enable NetworkManager
-systemctl start NetworkManager
 
 # Esci da chroot
 exit
@@ -97,10 +96,10 @@ reboot
 # Dopo il riavvio, esegui i seguenti comandi come utente (tuonome) con sudo:
 # Installazione tastiera italiana 
 sudo localectl set-x11-keymap it  
+sudo losdkeys it
 
 # Ottimizza pacman 
 sudo nano /etc/pacman.conf/
-VerbosePkgLists
 Color
 ParallelDownloads = 5
 ILoveCandy
@@ -108,20 +107,10 @@ ILoveCandy
 [multilib]
 Include = /etc/pacman.d/mirrorlist
 
-# Ottimizza mirror
-pacman -Syu reflector --noconfirm
-reflector --verbose \
-                 --country Italy,Germany,Spain \
-                 --fastest 10 \
-                 --threads $(nproc) \
-                 --save /etc/pacman.d/mirrorlist
-                 
 # Installa timeshift per i vari backup
 sudo pacman -Syu timeshift --noconfirm
 
-# Primo backup Terzo backup
-sudo timeshift --create --comments "Installazione principale"
-
+# Primo backup prim backup
 sudo timeshift --create --comments "Installazione base"
 
 # Dopo l'aggiornamento, esegui i comandi seguenti per configurare Xorg, XFCE e driver video:
