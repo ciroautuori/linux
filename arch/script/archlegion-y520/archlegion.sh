@@ -226,8 +226,35 @@ switching=none
 
 # --- Ottimizzazioni Avanzate ---
 # Configura intel-undervolt
+sudo pacman -S intel-undervolt
 sudo nano /etc/intel-undervolt.conf
+
+# Disabilita i triggers
+enable no
+
+# CPU Undervolting
+undervolt 0 'CPU' -100
+undervolt 1 'GPU' -50
+undervolt 2 'CPU Cache' -75
+undervolt 3 'System Agent' -50
+undervolt 4 'Analog I/O' -25
+
+# Modifica dei limiti di potenza
+power package 45 35
+
+# Modifica della temperatura critica
+tjoffset -20
+
+# Preferenze di energia vs prestazioni
+hwphint force load:single:0.8 performance balance_performance
+
+# Aggiornamento del daemon ogni 5 secondi
+interval 5000
+
 sudo systemctl enable intel-undervolt
+sudo systemctl start intel-undervolt
+
+
 
 # Configurazione refresh rate ottimale
 sudo nano /etc/X11/xorg.conf.d/10-monitor.conf
