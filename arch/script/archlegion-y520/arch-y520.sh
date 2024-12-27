@@ -17,7 +17,6 @@ timedatectl set-timezone Europe/Rome
 
 # Mostra dischi disponibili
 lsblk
-fdisk -l
 
 # Crea partizioni con cfdisk
 cfdisk /dev/nvme0n1
@@ -124,33 +123,6 @@ sudo nano /etc/lightdm/lightdm.conf #edita in greeter-session=lightdm-gtk-greete
 sudo pacman -S nvidia nvidia-utils nvidia-settings --noconfirm
 sudo pacman -S mesa xf86-video-intel intel-media-driver --noconfirm
 
-# Configura NVIDIA
-sudo nvidia-xconfig
-
-# Crea configurazione NVIDIA DRM
-sudo nano /etc/modprobe.d/nvidia.conf
-# Aggiungi:
-options nvidia-drm modeset=1
-options nvidia NVreg_DynamicPowerManagement=0x02
-
-sudo nano /etc/X11/xorg.conf.d/10-nvidia-drm-outputclass.conf
-# Aggiungi:
-Section "OutputClass"
-    Identifier "intel"
-    MatchDriver "i915"
-    Driver "modesetting"
-EndSection
-
-Section "OutputClass"
-    Identifier "nvidia"
-    MatchDriver "nvidia-drm"
-    Driver "nvidia"
-    Option "AllowEmptyInitialConfiguration"
-    Option "PrimaryGPU" "yes"
-    ModulePath "/usr/lib/nvidia/xorg"
-    ModulePath "/usr/lib/xorg/modules"
-EndSection
-
 # Installa browser
 sudo pacman -S firefox --noconfirm
 sudo reboot
@@ -169,7 +141,7 @@ nano ~/.zshrc
 # Modifica:
 ZSH_THEME="powerlevel10k/powerlevel10k"
 plugins=(git docker docker-compose sudo zsh-autosuggestions zsh-syntax-highlighting)
-
+# Installa repo
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 source ~/.zshrc
@@ -284,7 +256,7 @@ cd yay
 makepkg -si
 cd ..
 rm -rf yay
-yay -S steam
+yay -S steam xfce4-docklike-plugin 0.4.3-1
 
 # Applicazioni aggiuntive
 sudo pacman -S --noconfirm libreoffice-fresh discord virtualbox virtualbox-host-modules-arch
