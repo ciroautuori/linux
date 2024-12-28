@@ -94,7 +94,6 @@ umount -R /mnt
 reboot
 
 # --- FINE PRIMO RIAVVIO ---
-
 # Installazione tastiera italiana 
 sudo localectl set-x11-keymap it  
 sudo loadkeys it
@@ -114,20 +113,22 @@ sudo timeshift --create --comments "Installazione base"
 
 # Installa Desktop e utils
 sudo pacman -Syu && sudo pacman -S xorg plasma-desktop sddm --noconfirm
-sudo pacman -S konsole zsh firefox --noconfirm
 sudo systemctl enable sddm
 
 # --- Driver Video per Legion Y520 ---
 sudo pacman -S nvidia nvidia-utils nvidia-settings --noconfirm
 sudo pacman -S mesa xf86-video-intel intel-media-driver --noconfirm
-sudo reboot
 
-# --- FINE SECONDO RIAVVIO ---
-
-# Secondo backup
-sudo timeshift --create --comments "Installazione desktop"
+# Installa AUR e browser
+git clone https://aur.archlinux.org/yay.git
+cd yay
+makepkg -si
+cd ..
+rm -rf yay
+yay -S google-chrome
 
 # Zsh e plugin
+sudo pacman -S zsh --noconfirm
 chsh -s $(which zsh)
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
@@ -142,6 +143,10 @@ source ~/.zshrc
 exec zsh
 sudo reboot
 
+# --- FINE SECONDO RIAVVIO ---
+# Secondo backup
+sudo timeshift --create --comments "Installazione desktop"
+
 # Pacchetti wireless e bluetooth
 sudo pacman -S wireless_tools wpa_supplicant netctl dialog iw network-manager-applet nm-connection-editor bluez bluez-utils blueman --noconfirm
 
@@ -150,8 +155,6 @@ sudo pacman -S ufw --noconfirm
 sudo systemctl enable ufw
 sudo ufw default deny incoming
 sudo ufw default allow outgoing
-sudo ufw allow out 22/tcp
-sudo ufw allow out 443/tcp
 sudo ufw enable
 
 # Fail2ban
@@ -241,20 +244,14 @@ sudo nano /etc/thermald/thermal-conf.xml
     </Platform>
 </ThermalConfiguration>
 
-# Flatpak e AUR
+# Flatpak 
 sudo pacman -S flatpak --noconfirm
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-
-git clone https://aur.archlinux.org/yay.git
-cd yay
-makepkg -si
-cd ..
-rm -rf yay
-yay -S steam xfce4-docklike-plugin 0.4.3-1
 
 # Applicazioni aggiuntive
 sudo pacman -S --noconfirm libreoffice-fresh discord virtualbox virtualbox-host-modules-arch
 yay -S --noconfirm anydesk whatsdesk-bin telegram-desktop-bin spotify visual-studio-code-bin
+yay -S steam 
 
 # VirtualBox setup
 sudo usermod -aG vboxusers $USER
@@ -264,22 +261,13 @@ sudo modprobe vboxnetadp
 sudo systemctl enable vboxweb.service
 sudo systemctl start vboxweb.service
 
-# Configura sensori
+# Configura sensori e Test componenti
 sudo sensors-detect --auto
-
-# Test componenti
 sudo nvidia-smi
 sudo sensors
 sudo powertop --auto-tune
-
-# Tema WhiteSur chiudi firefox
-git clone https://github.com/vinceliuice/WhiteSur-gtk-theme.git --depth=1
-cd WhiteSur-gtk-theme
-./install.sh -o solid -c dark
-./tweaks.sh --firefox
-cd ..
-rm -rf WhiteSur-gtk-theme
 sudo reboot
 
+# --- ARCHLEGION COMPLETO ---
 # Backup finale
 sudo timeshift --create --comments "Installazione completa"
