@@ -278,3 +278,94 @@ sudo nano /etc/thermald/thermal-conf.xml
 ```
 
 Add the
+
+```xml
+<ThermalConfiguration>
+    <Platform>
+        <Name>Legion Y520</Name>
+        <ProductName>Lenovo Legion Y520</ProductName>
+        <Preference>QUIET</Preference>
+        <ThermalZones>
+            <ThermalZone>
+                <Type>cpu</Type>
+                <TripPoints>
+                    <TripPoint>
+                        <SensorType>thermal</SensorType>
+                        <Temperature>75000</Temperature>
+                        <type>passive</type>
+                        <ControlType>SEQUENTIAL</ControlType>
+                    </TripPoint>
+                </TripPoints>
+            </ThermalZone>
+        </ThermalZones>
+    </Platform>
+</ThermalConfiguration>
+```
+
+---
+
+## 13. Install Flatpak and AUR
+
+Install **Flatpak** and add the **Flathub** repository:
+
+```bash
+sudo pacman -S flatpak --noconfirm
+flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+```
+
+---
+Certainly! Here's how to incorporate the additional steps for sensor configuration and component testing into the guide.
+
+---
+
+## 14. Install System Utilities (Updated)
+
+In addition to the utilities previously mentioned, it's a good idea to configure sensors and test system components for better performance and monitoring.
+
+### Configure Sensors
+
+Run **sensors-detect** to automatically detect available sensors on your system:
+
+```bash
+sudo sensors-detect --auto
+```
+
+This will scan for hardware sensors and enable them for monitoring CPU temperature, fan speed, and other components.
+
+---
+
+## 15. Test System Components
+
+Test the components to ensure everything is working properly:
+
+### NVIDIA GPU Status
+
+If you have an NVIDIA GPU, check its status using **nvidia-smi**:
+
+```bash
+sudo nvidia-smi
+```
+
+This command will display information about the NVIDIA graphics card, including temperature, GPU utilization, and memory usage.
+
+### Sensors
+
+To check the status of sensors (such as temperature, fan speed, etc.), run:
+
+```bash
+sudo sensors
+```
+
+This will display a list of available sensors and their current readings.
+
+### Power Management
+
+For power management, run **powertop** and automatically tune your system for better power efficiency:
+
+```bash
+sudo powertop --auto-tune
+```
+
+This command adjusts various power-related settings to optimize battery life.
+
+---
