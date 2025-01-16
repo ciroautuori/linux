@@ -33,7 +33,7 @@ Before starting the optimization process, create a system backup with **Timeshif
 
 ```bash
 sudo pacman -Syu timeshift --noconfirm
-sudo timeshift --create --comments "Installazione base"
+sudo timeshift --create --comments "base"
 ```
 
 This step ensures you have a recovery point in case something goes wrong during the installation.
