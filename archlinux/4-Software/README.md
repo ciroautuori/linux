@@ -165,7 +165,7 @@ sudo reboot
 Once everything is installed and configured, create a backup of the system using **Timeshift**:
 
 ```bash
-sudo timeshift --create --comments "Complete installation"
+sudo timeshift --create --comments "full"
 ```
 
 ---
