@@ -31,7 +31,7 @@ Here are some additional applications you can install. This includes popular pro
 
 ```bash
 sudo pacman -S --noconfirm libreoffice-fresh discord virtualbox virtualbox-host-modules-arch obsidian
-yay -S --noconfirm anydesk whatsdesk-bin telegram-desktop-bin spotify visual-studio-code-bin xfce4-docklike-plugin icloud-notes-git davinci-resolve
+yay -S --noconfirm anydesk whatsdesk-bin telegram-desktop-bin spotify visual-studio-code-bin xfce4-docklike-plugin icloud-notes-git davinci-resolve optimus-manager-qt
 ```
 
 ---
