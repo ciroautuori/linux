@@ -1,0 +1,30 @@
+#################################
+#   Transparency / Opacity      #
+#################################
+# Opacità per finestre inattive
+inactive-opacity = 0.85;
+# Opacità per finestre attive
+active-opacity = 0.95;
+# Permette di impostare opacità diverse per programmi specifici
+opacity-rule = [
+  "85:class_g = 'Xfce4-terminal'",
+  "95:class_g = 'Firefox'"
+];
+
+#################################
+#     Background-Blurring       #
+#################################
+blur-method = "gaussian";
+blur-size = 8;
+blur-deviation = 3.0;
+blur-background = true;
+
+#################################
+#       General Settings        #
+#################################
+backend = "glx";
+vsync = true;
+mark-wmwin-focused = true;
+detect-client-opacity = true;
+use-damage = true;
+log-level = "warn";
