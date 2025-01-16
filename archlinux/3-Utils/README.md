@@ -277,7 +277,7 @@ Configure **Thermald** for better temperature management:
 sudo nano /etc/thermald/thermal-conf.xml
 ```
 
-Add the
+Add the following configuration:
 
 ```xml
 <ThermalConfiguration>
