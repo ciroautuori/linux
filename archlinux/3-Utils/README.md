@@ -177,13 +177,13 @@ sudo systemctl enable thermald
 
 Install various useful utilities:
 
-bash
+```bash
 sudo pacman -S ntfs-3g gvfs gvfs-mtp gvfs-afc gvfs-smb file-roller --noconfirm
 sudo pacman -S xf86-input-libinput xf86-input-synaptics --noconfirm
 sudo pacman -S pulseaudio pulseaudio-bluetooth pavucontrol alsa-utils alsa-plugins --noconfirm
 sudo pacman -S psensor lm_sensors hddtemp htop neofetch --noconfirm
 sudo pacman -S gparted wget curl unzip p7zip ntfs-3g usbutils lsof tree vlc ffmpeg --noconfirm
-
+```
 
 These tools are essential for managing system hardware, audio, and files.
 
@@ -193,9 +193,9 @@ These tools are essential for managing system hardware, audio, and files.
 
 Install tools for **gaming** and **performance tuning**:
 
-bash
+```bash
 sudo pacman -S gamemode vulkan-intel vulkan-icd-loader intel-undervolt powertop cpupower --noconfirm
-
+```
 
 ---
 
@@ -203,12 +203,12 @@ sudo pacman -S gamemode vulkan-intel vulkan-icd-loader intel-undervolt powertop 
 
 Install essential programming tools:
 
-bash
+```bash
 sudo pacman -S python python-pip nodejs npm docker docker-compose lua --noconfirm
 sudo systemctl enable docker
 sudo usermod -a -G docker username
 newgrp docker
-
+```
 
 ---
 
@@ -216,10 +216,10 @@ newgrp docker
 
 Install popular fonts for better readability:
 
-bash
+```bash
 sudo pacman -S ttf-dejavu ttf-freefont ttf-liberation ttf-droid terminus-font --noconfirm
 sudo pacman -S noto-fonts noto-fonts-emoji ttf-ubuntu-font-family ttf-roboto ttf-roboto-mono --noconfirm
-
+```
 
 ---
 
@@ -229,13 +229,13 @@ sudo pacman -S noto-fonts noto-fonts-emoji ttf-ubuntu-font-family ttf-roboto ttf
 
 For better power efficiency, configure **Intel Undervolt**:
 
-bash
+```bash
 sudo nano /etc/intel-undervolt.conf
-
+```
 
 Modify the file as follows:
 
-bash
+```bash
 enable no
 undervolt 0 'CPU' -80
 undervolt 1 'GPU' -50
@@ -246,14 +246,14 @@ power package 45 30
 tjoffset -20
 hwphint force load:single:0.8 performance balance_performance
 interval 5000
-
+```
 
 Enable **Intel Undervolt**:
 
-bash
+```bash
 sudo systemctl enable intel-undervolt
 sudo systemctl start intel-undervolt
-
+```
 
 ---
 
@@ -263,27 +263,27 @@ sudo systemctl start intel-undervolt
 
 For better monitor performance, configure the display settings:
 
-bash
+```bash
 sudo nano /etc/X11/xorg.conf.d/10-monitor.conf
-
+```
 
 Add the following configuration:
 
-bash
+```bash
 Section "Monitor"
     Identifier "HDMI-0"
     Option "Primary" "true"
     Option "PreferredMode" "1920x1080_144.00"
 EndSection
-
+```
 
 ### Thermal Configuration
 
 Configure **Thermald** for better temperature management:
 
-bash
+```bash
 sudo nano /etc/thermald/thermal-conf.xml
-
+```
 
 Add the following configuration:
 
@@ -316,10 +316,10 @@ xml
 
 Install **Flatpak** and add the **Flathub** repository:
 
-bash
+```bash
 sudo pacman -S flatpak --noconfirm
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-
+```
 
 ---
 Certainly! Here's how to incorporate the additional steps for sensor configuration and component testing into the guide.
