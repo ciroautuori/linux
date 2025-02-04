@@ -173,6 +173,158 @@ sudo systemctl enable thermald
 ```
 
 ---
+## 10. Install System Utilities
+
+Install various useful utilities:
+
+bash
+sudo pacman -S ntfs-3g gvfs gvfs-mtp gvfs-afc gvfs-smb file-roller --noconfirm
+sudo pacman -S xf86-input-libinput xf86-input-synaptics --noconfirm
+sudo pacman -S pulseaudio pulseaudio-bluetooth pavucontrol alsa-utils alsa-plugins --noconfirm
+sudo pacman -S psensor lm_sensors hddtemp htop neofetch --noconfirm
+sudo pacman -S gparted wget curl unzip p7zip ntfs-3g usbutils lsof tree vlc ffmpeg --noconfirm
+
+
+These tools are essential for managing system hardware, audio, and files.
+
+---
+
+## 11. Install Gaming and Performance Tools
+
+Install tools for **gaming** and **performance tuning**:
+
+bash
+sudo pacman -S gamemode vulkan-intel vulkan-icd-loader intel-undervolt powertop cpupower --noconfirm
+
+
+---
+
+## 12. Install Development Tools
+
+Install essential programming tools:
+
+bash
+sudo pacman -S python python-pip nodejs npm docker docker-compose lua --noconfirm
+sudo systemctl enable docker
+sudo usermod -a -G docker username
+newgrp docker
+
+
+---
+
+## 13. Install Fonts
+
+Install popular fonts for better readability:
+
+bash
+sudo pacman -S ttf-dejavu ttf-freefont ttf-liberation ttf-droid terminus-font --noconfirm
+sudo pacman -S noto-fonts noto-fonts-emoji ttf-ubuntu-font-family ttf-roboto ttf-roboto-mono --noconfirm
+
+
+---
+
+## 14. Advanced Optimizations
+
+### Intel Undervolt
+
+For better power efficiency, configure **Intel Undervolt**:
+
+bash
+sudo nano /etc/intel-undervolt.conf
+
+
+Modify the file as follows:
+
+bash
+enable no
+undervolt 0 'CPU' -80
+undervolt 1 'GPU' -50
+undervolt 2 'CPU Cache' -75
+undervolt 3 'System Agent' -50
+undervolt 4 'Analog I/O' -25
+power package 45 30
+tjoffset -20
+hwphint force load:single:0.8 performance balance_performance
+interval 5000
+
+
+Enable **Intel Undervolt**:
+
+bash
+sudo systemctl enable intel-undervolt
+sudo systemctl start intel-undervolt
+
+
+---
+
+## 15. Configure Monitor and Thermal Settings
+
+### Monitor Configuration
+
+For better monitor performance, configure the display settings:
+
+bash
+sudo nano /etc/X11/xorg.conf.d/10-monitor.conf
+
+
+Add the following configuration:
+
+bash
+Section "Monitor"
+    Identifier "HDMI-0"
+    Option "Primary" "true"
+    Option "PreferredMode" "1920x1080_144.00"
+EndSection
+
+
+### Thermal Configuration
+
+Configure **Thermald** for better temperature management:
+
+bash
+sudo nano /etc/thermald/thermal-conf.xml
+
+
+Add the following configuration:
+
+xml
+<ThermalConfiguration>
+    <Platform>
+        <Name>Legion Y520</Name>
+        <ProductName>Lenovo Legion Y520</ProductName>
+        <Preference>QUIET</Preference>
+        <ThermalZones>
+            <ThermalZone>
+                <Type>cpu</Type>
+                <TripPoints>
+                    <TripPoint>
+                        <SensorType>thermal</SensorType>
+                        <Temperature>75000</Temperature>
+                        <type>passive</type>
+                        <ControlType>SEQUENTIAL</ControlType>
+                    </TripPoint>
+                </TripPoints>
+            </ThermalZone>
+        </ThermalZones>
+    </Platform>
+</ThermalConfiguration>
+
+
+---
+
+## 16. Install Flatpak and AUR
+
+Install **Flatpak** and add the **Flathub** repository:
+
+bash
+sudo pacman -S flatpak --noconfirm
+flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+
+
+---
+Certainly! Here's how to incorporate the additional steps for sensor configuration and component testing into the guide.
+
+---
 
 ## 17. Install WhiteSur Theme
 
