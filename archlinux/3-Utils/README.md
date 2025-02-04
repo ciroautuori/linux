@@ -144,76 +144,9 @@ Reboot the system for changes to take effect:
 sudo reboot
 ```
 
-## 6. Create a Backup with Timeshift
-
-Before starting the optimization process, create a system backup with **Timeshift**:
-
-```bash
-sudo pacman -Syu timeshift --noconfirm
-sudo timeshift --create --comments "base"
-```
-
-This step ensures you have a recovery point in case something goes wrong during the installation.
-
 ---
 
-## 7. Install and Configure Zsh
-
-Install **Zsh** and set it as the default shell:
-
-```bash
-sudo pacman -S zsh --noconfirm
-chsh -s $(which zsh)
-```
-
-Next, install **Oh My Zsh** for enhanced Zsh functionality:
-
-```bash
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-```
-
-Install the **Powerlevel10k** theme and useful plugins:
-
-```bash
-git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
-```
-
-Edit your `.zshrc` file to set the theme and plugins:
-
-```bash
-nano ~/.zshrc
-```
-
-Modify the file as follows:
-
-```bash
-ZSH_THEME="powerlevel10k/powerlevel10k"
-plugins=(git docker docker-compose sudo zsh-autosuggestions zsh-syntax-highlighting)
-```
-
-Install the plugins:
-
-```bash
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-```
-
-Activate your changes:
-
-```bash
-source ~/.zshrc
-exec zsh
-```
-
-Reboot the system for changes to take effect:
-
-```bash
-sudo reboot
-```
-
----
-
-## 8. Install Wireless and Bluetooth Packages
+## 7. Install Wireless and Bluetooth Packages
 
 Install packages for **wireless** and **Bluetooth** connectivity:
 
@@ -225,7 +158,7 @@ sudo systemctl start bluetooth
 
 ---
 
-## 9. Configure Firewall
+## 8. Configure Firewall
 
 Install and configure **UFW** (Uncomplicated Firewall):
 
@@ -243,7 +176,7 @@ This setup ensures your system is secure by default, only allowing necessary con
 
 ---
 
-## 10. Install and Configure Fail2ban
+## 9. Install and Configure Fail2ban
 
 Install **Fail2ban** to protect your system from brute-force attacks:
 
@@ -270,7 +203,7 @@ maxretry = 3
 
 ---
 
-## 11. Install Power Management Tools
+## 10. Install Power Management Tools
 
 To enhance battery life and thermal performance, install the following tools:
 
@@ -282,7 +215,7 @@ sudo systemctl enable thermald
 
 ---
 
-## 12. Install System Utilities
+## 11. Install System Utilities
 
 Install various useful utilities:
 
@@ -298,7 +231,7 @@ These tools are essential for managing system hardware, audio, and files.
 
 ---
 
-## 13. Install Gaming and Performance Tools
+## 12. Install Gaming and Performance Tools
 
 Install tools for **gaming** and **performance tuning**:
 
@@ -308,7 +241,7 @@ sudo pacman -S gamemode vulkan-intel vulkan-icd-loader intel-undervolt powertop 
 
 ---
 
-## 14. Install Development Tools
+## 13. Install Development Tools
 
 Install essential programming tools:
 
@@ -321,7 +254,7 @@ newgrp docker
 
 ---
 
-## 15. Install Fonts
+## 14. Install Fonts
 
 Install popular fonts for better readability:
 
@@ -332,7 +265,7 @@ sudo pacman -S noto-fonts noto-fonts-emoji ttf-ubuntu-font-family ttf-roboto ttf
 
 ---
 
-## 16. Advanced Optimizations
+## 15. Advanced Optimizations
 
 ### Intel Undervolt
 
@@ -366,7 +299,7 @@ sudo systemctl start intel-undervolt
 
 ---
 
-## 17. Configure Monitor and Thermal Settings
+## 16. Configure Monitor and Thermal Settings
 
 ### Monitor Configuration
 
@@ -421,7 +354,7 @@ Add the following configuration:
 
 ---
 
-## 18. Install Flatpak and AUR
+## 17. Install Flatpak and AUR
 
 Install **Flatpak** and add the **Flathub** repository:
 
@@ -435,7 +368,7 @@ Certainly! Here's how to incorporate the additional steps for sensor configurati
 
 ---
 
-## 19. Install System Utilities (Updated)
+## 18. Install System Utilities (Updated)
 
 In addition to the utilities previously mentioned, it's a good idea to configure sensors and test system components for better performance and monitoring.
 
@@ -451,7 +384,7 @@ This will scan for hardware sensors and enable them for monitoring CPU temperatu
 
 ---
 
-## 20. Test System Components
+## 19. Test System Components
 
 Test the components to ensure everything is working properly:
 
