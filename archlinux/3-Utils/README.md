@@ -287,7 +287,7 @@ sudo nano /etc/thermald/thermal-conf.xml
 
 Add the following configuration:
 
-xml
+```xml
 <ThermalConfiguration>
     <Platform>
         <Name>Legion Y520</Name>
@@ -308,7 +308,7 @@ xml
         </ThermalZones>
     </Platform>
 </ThermalConfiguration>
-
+```
 
 ---
 
